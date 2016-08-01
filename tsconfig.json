@@ -9,6 +9,7 @@
     "noEmitHelpers": true,
     "lib": ["es6", "dom"],
     "strictNullChecks": false,
+    "removeComments": true,
     "baseUrl": "./src",
     "paths": [
     ],
@@ -25,7 +26,9 @@
     ]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "typings/main.d.ts",
+    "typings/main"
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
