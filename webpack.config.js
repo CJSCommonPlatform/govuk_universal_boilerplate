@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var commonConfig = {
   resolve: {
@@ -11,15 +12,19 @@ var commonConfig = {
       { test: /\.ts$/, loaders: ['ts-loader', 'angular2-template-loader'] },
       { test: /\.html$/, loader: 'raw-loader' },
       { test: /\.css$/, loader: 'raw-loader' },
-      { test: /\.json$/, loader: 'raw-loader' }
-    ],
-    preLoaders: [
-      // needed to lower the filesize of angular due to inline source-maps
-      { test: /\.js$/, loader: 'source-map-loader' }
+      { test: /\.json$/, loader: 'raw-loader' },
+      { test: /\.scss$/, loaders: ['raw', 'sass']},
+      {test: /\.(jpg|jpeg|gif|png)$/, loader: 'url?limit=1024&name=assets/img/[name].[ext]'},
+      {test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=1024&name=assets/fonts/[name].[ext]'}
     ],
   },
+  sassLoader: {
+    includePaths: [
+      'node_modules/govuk-elements-sass/public/sass',
+      'node_modules/govuk_frontend_toolkit/stylesheets'
+    ]
+  },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(true)
   ]
 
 };
@@ -37,7 +42,41 @@ var clientConfig = {
     __filename: true,
     process: true,
     Buffer: false
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        context: './node_modules/@govuk/platform-template/lib',
+        from: 'govuk_template/**/*.png',
+        to: 'assets/img',
+        flatten: true
+      },
+      {
+        context: './node_modules/@govuk/platform-template/lib',
+        from: 'govuk_template/**/*.ico',
+        to: 'assets/img',
+        flatten: true
+      },
+      {
+        context: './node_modules/@govuk/platform-template/lib',
+        from: 'govuk_template/**/*.svg',
+        to: 'assets/img',
+        flatten: true
+      },
+      {
+        context: './node_modules/govuk_frontend_toolkit',
+        from: 'images/**/*.png',
+        to: 'assets/img',
+        flatten: true
+      },
+      {
+        context: './node_modules/@govuk/platform-template/assets',
+        from: 'fonts/*',
+        to: 'assets/fonts',
+        flatten: true
+      }
+    ])
+  ]
 };
 
 
