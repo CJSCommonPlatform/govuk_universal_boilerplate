@@ -1,5 +1,5 @@
 // the polyfills must be the first thing imported in node.js
-import 'angular2-universal/polyfills';
+import 'angular2-universal-polyfills';
 
 import * as path from 'path';
 import * as express from 'express';
@@ -9,7 +9,10 @@ import * as cookieParser from 'cookie-parser';
 // Angular 2
 import { enableProdMode } from '@angular/core';
 // Angular 2 Universal
-import { expressEngine } from 'angular2-universal';
+import { createEngine } from 'angular2-express-engine';
+
+// App
+import { MainModule } from './main.node';
 
 // enable prod for faster renders
 enableProdMode();
@@ -18,7 +21,7 @@ const app = express();
 const ROOT = path.join(path.resolve(__dirname, '..'));
 
 // Express View
-app.engine('.html', expressEngine);
+app.engine('.html', createEngine({}));
 app.set('views', __dirname);
 app.set('view engine', 'html');
 
@@ -29,8 +32,17 @@ app.use(bodyParser.json());
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
 app.use(express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
-
-import { ngApp } from './main.node';
+function ngApp(req, res) {
+  res.render('index', {
+    req,
+    res,
+    ngModule: MainModule,
+    preboot: false,
+    baseUrl: '/',
+    requestUrl: req.originalUrl,
+    originUrl: 'http://localhost:3000'
+  });
+}
 // Routes with html5pushstate
 // ensure routes match client-side-app
 app.get('/', ngApp);
@@ -39,12 +51,6 @@ app.get('/about/*', ngApp);
 app.get('/home', ngApp);
 app.get('/home/*', ngApp);
 
-// use indexFile over ngApp only when there is too much load on the server
-function indexFile(req, res) {
-  // when there is too much load on the server just send
-  // the index.html without prerendering for client-only
-  res.sendFile('/index.html', {root: __dirname});
-}
 
 app.get('*', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
