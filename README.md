@@ -1,9 +1,9 @@
-# Angular 2 Universal Starter [![Universal Angular 2](https://img.shields.io/badge/universal-angular2-brightgreen.svg?style=flat)](https://github.com/angular/universal)
+# Angular 2 Universal Starter [![Universal Angular 2](https://img.shields.io/badge/universal-angular2-brightgreen.svg?style=flat)](https://github.com/angular/universal) 
+> Server-Side Rendering for Angular 2
 
-A minimal Angular 2 starter for Universal JavaScript using TypeScript and Webpack
+A minimal Angular 2 starter for Universal JavaScript using TypeScript 2 and Webpack 2
 
-> If you're looking for the repo from the AngularConnect talk look in the [angular-connect branch](https://github.com/angular/universal-starter/tree/angular-connect)  
-If you're looking for a SystemJS version of the repo look in the [systemjs branch](https://github.com/angular/universal-starter/tree/systemjs)
+> If you're looking for the Angular Universal repo go to [angular/universal](https://github.com/angular/universal)  
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 

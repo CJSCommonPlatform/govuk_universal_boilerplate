@@ -1,16 +1,21 @@
-// Angular 2 Universal
-import { bootstrap } from '@angular/platform-browser-dynamic';
-import { provideRouter } from '@angular/router';
-import { HTTP_PROVIDERS } from '@angular/http';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { routes } from './app/app.routes';
+import { UniversalModule } from 'angular2-universal';
 
-// Application
-import {App} from './app/app.component';
-import {routes} from './app/app.routes';
+import { App, About } from './app/app.component';
+import { Home } from './app/home/home.component';
 
-// you must return bootstrap for client.ts
-export function ngApp() {
-  return bootstrap(App, [
-    ...HTTP_PROVIDERS,
-    provideRouter(routes)
-  ]);
+@NgModule({
+  bootstrap: [ App ],
+  declarations: [ App, Home, About ],
+  imports: [
+    UniversalModule, // BrowserModule, HttpModule, and JsonpModule are included
+    FormsModule,
+    RouterModule.forRoot(routes)
+  ]
+})
+export class MainModule {
+
 }

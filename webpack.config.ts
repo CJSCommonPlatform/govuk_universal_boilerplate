@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+var resolveNgRoute = require('@angularclass/resolve-angular-routes');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var commonConfig = {
@@ -12,10 +13,11 @@ var commonConfig = {
       { test: /\.ts$/, loaders: ['ts-loader', 'angular2-template-loader'] },
       { test: /\.html$/, loader: 'raw-loader' },
       { test: /\.css$/, loader: 'raw-loader' },
-      { test: /\.json$/, loader: 'raw-loader' },
+      { test: /\.json$/, loader: 'json-loader' },
       { test: /\.scss$/, loaders: ['raw', 'sass']},
-      {test: /\.(jpg|jpeg|gif|png)$/, loader: 'url?limit=1024&name=assets/img/[name].[ext]'},
-      {test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=1024&name=assets/fonts/[name].[ext]'}
+      { test: /\.(jpg|jpeg|gif|png)$/, loader: 'url?limit=1024&name=assets/img/[name].[ext]' },
+      { test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=1024&name=assets/fonts/[name].[ext]' }
+
     ],
   },
   sassLoader: {
@@ -109,7 +111,7 @@ var defaultConfig = {
     publicPath: path.resolve(__dirname),
     filename: 'index.js'
   }
-}
+};
 
 
 
@@ -120,7 +122,7 @@ module.exports = [
 
   // Server
   webpackMerge({}, defaultConfig, commonConfig, serverConfig)
-]
+];
 
 // Helpers
 function checkNodeImport(context, request, cb) {
